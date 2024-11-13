@@ -2,47 +2,55 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasApiTokens, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'name',
         'email',
         'password',
+        'role_id',
+        'is_active',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
+    protected $casts = [
+        'is_active' => 'boolean',
+    ];
+
+    public function role()
     {
+        return $this->belongsTo(Role::class);
+    }
+
+    public function isAdmin(): bool
+    {
+        //Add debugging
+        \Log::info('isAdmin check:', [
+            'user_id' => $this->id,
+            'role_id' => $this->role_id,
+            'is_admin' => $this->role_id === 1  // or whatever your admin role ID is
+        ]);
+
+        return $this->role_id === 1; // adjust based on your admin role ID
+    }
+
+    public function abilities()
+    {
+        // Implement based on your requirements
         return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            'view-dashboard' => $this->can('view-dashboard'),
+            'manage-users' => $this->can('manage-users'),
+            'update-users' => $this->can('update-users', $this),
         ];
     }
 }
