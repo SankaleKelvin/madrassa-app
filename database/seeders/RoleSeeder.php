@@ -24,5 +24,12 @@ class RoleSeeder extends Seeder
             'slug' => 'user',
             'description' => 'Regular user with limited access',
         ]);
+
+        
+        Role::create([
+            'name' => 'Student',
+            'slug' => 'student',
+            'description' => 'Student user with student-related access',
+        ]);
     }
 }

@@ -16,9 +16,14 @@ class UserPolicy
         return $user->id === $model->id || $user->isAdmin();
     }
 
-    public function create(User $user): bool
+    // public function create(User $user): bool
+    // {
+    //     return $user->isAdmin();
+    // }
+   
+    public function create(?User $user)
     {
-        return $user->isAdmin();
+        return true; // Allow anyone to create a user (register)
     }
 
     public function update(User $user, User $model): bool

@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 
 //Public Routes
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('register', [AuthController::class, 'register']);
 
 Route::get('course', [CourseController::class, 'index']);
 
@@ -24,7 +25,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [AuthController::class, 'me']);
 
     //User Management Routes
-    Route::apiResource('users', UserController::class);
+    // Route::apiResource('users', UserController::class);
+
+    Route::get('user', [UserController::class, 'index']);
+    Route::get('user/{id}', [UserController::class, 'show']);
+    Route::put('user/{id}', [UserController::class, 'update']);
+    Route::delete('user/{id}', [UserController::class, 'destroy']);
+
+
 
     Route::post('location', [LocationController::class, 'createLocation']);
     Route::get('location', [LocationController::class, 'getLocations']);

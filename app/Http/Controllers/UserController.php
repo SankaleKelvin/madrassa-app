@@ -16,25 +16,25 @@ class UserController extends Controller
         return response()->json($users);
     }
 
-    public function store(Request $request): JsonResponse
-    {
-        $this->authorize('create', User::class);
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8'],
-            'role_id' => ['required', 'exists:roles,id'],
-        ]);
-        $validated['password'] = Hash::make($validated['password']);
-        $user = User::create($validated);
-        return response()->json($user->load('role'), 201);
-    }
+    // public function store(Request $request): JsonResponse
+    // {
+    //     $this->authorize('create', User::class);
+    //     $validated = $request->validate([
+    //         'name' => ['required', 'string', 'max:255'],
+    //         'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+    //         'password' => ['required', 'string', 'min:8'],
+    //         'role_id' => ['required', 'exists:roles,id'],
+    //     ]);
+    //     $validated['password'] = Hash::make($validated['password']);
+    //     $user = User::create($validated);
+    //     return response()->json($user->load('role'), 201);
+    // }
 
-    public function show(User $user): JsonResponse
-    {
-        $this->authorize('view', $user);
-        return response()->json($user->load('role'));
-    }
+    // public function show(User $user): JsonResponse
+    // {
+    //     $this->authorize('view', $user);
+    //     return response()->json($user->load('role'));
+    // }
 
     public function update(Request $request, User $user): JsonResponse
     {
