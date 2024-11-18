@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\MadrassaController;
 use App\Http\Controllers\PaymentController;
@@ -17,12 +18,13 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
 
 Route::get('course', [CourseController::class, 'index']);
-
+Route::get('/storage/image/{path}', [ImageController::class, 'show'])->where('path', '.*');
 
 Route::middleware('auth:sanctum')->group(function () {
     //Auth Routes
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/me', [AuthController::class, 'me']);
+    // Route::get('/storage/image/{path}', [ImageController::class, 'show'])->where('path', '.*');
 
     //User Management Routes
     // Route::apiResource('users', UserController::class);
