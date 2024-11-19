@@ -3,20 +3,22 @@
 namespace Database\Seeders;
 
 use App\Models\Location;
+use App\Models\Madrassa;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class LocationSeeder extends Seeder
+class MadrassaSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Location::create([
-            'name' => 'Mombasa',
-            'areaCode' => '001',
-        ]);
+        $location = Location::where('id', '1')->first();
 
+        Madrassa::create([
+            'name' => 'Madrasa Al munawar',
+            'location_id' => $location->id,
+        ]);
     }
 }
